@@ -5,7 +5,6 @@ from models.user_model import User
 from views.users_menu import display_users_menu
 from views.tasks_menu import display_tasks_menu
 
-
 # =================== MENÚ INICIAL ===================
 def display_start_menu():
     while True:

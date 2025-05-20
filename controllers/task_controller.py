@@ -10,55 +10,105 @@ from database.db import SessionLocal
 
 def create_task(name: str, description: str, user_id: int):
     session = SessionLocal()
-    task = Task(name=name, description=description, user_id=user_id)
-    session.add(task)
-    session.commit()
-    session.refresh(task)
-    session.close()
-    return task
+    try:
+        user = session.query(User).filter(User.id == user_id).first()
+        if not name:
+            print("El nombre es obligatorio.")
+            return None
+        if not user:
+            print(f"Usuario con ID {user_id} no existe.")
+            return None
+        task = Task(name=name, description=description, user_id=user_id)
+        session.add(task)
+        session.commit()
+        session.refresh(task)
+        return task
+    except Exception as e:
+        print(f"Error al crear tarea: {e}")
+        return None
+    finally:
+        session.close()
 
 
 def get_all_tasks():
     session = SessionLocal()
-    session.close()
-    return session.query(Task).all()
+    try:
+        tasks = session.query(Task).all()
+        if not tasks:
+            print("No hay tareas disponibles.")
+            return None
+        return tasks
+    except Exception as e:
+        print(f"Error al consultar tareas: {e}")
+        return None
+    finally:
+        session.close()
 
 def get_task_by_id(task_id: int):
     session = SessionLocal()
-    task = session.query(Task).filter(Task.id == task_id).first()
-    session.close()
-    return task
+    try:
+        task = session.query(Task).filter(Task.id == task_id).first()
+        if not task:
+            print(f"Tarea con ID {task_id} no existe.")
+            return None
+        return task
+    except Exception as e:
+        print(f"Error al consultar tarea: {e}")
+        return None
+    finally:
+        session.close()
 
 
 def update_task(task_id: int, name: str = None, description: str = None, is_done: bool = None):
     session = SessionLocal()
-    task = session.query(Task).filter(Task.id == task_id).first()
-    if not task:
+    try:
+        task = session.query(Task).filter(Task.id == task_id).first()
+        if not task:
+            print(f"Tarea con ID {task_id} no existe.")
+            return None
+        if name:
+            task.name = name
+        if description:
+            task.description = description
+        if is_done is not None:
+            task.is_done = is_done
+        session.commit()
+        session.refresh(task)
+        return task
+    except Exception as e:
+        print(f"Error al actualizar tarea: {e}")
         return None
-    if name:
-        task.name = name
-    if description:
-        task.description = description
-    if is_done is not None:
-        task.is_done = is_done
-    session.commit()
-    session.refresh(task)
-    session.close()
-    return task
+    finally:
+        session.close()
 
 
 def delete_task(task_id: int):
     session = SessionLocal()
-    task = session.query(Task).filter(Task.id == task_id).first()
-    if task:
+    try:
+        task = session.query(Task).filter(Task.id == task_id).first()
+        if not task:
+            print(f"Tarea con ID {task_id} no existe.")
+            return None
         session.delete(task)
         session.commit()
-        session.close()
         return task
+    except Exception as e:
+        print(f"Error al consultar tarea: {e}")
+        return None
+    finally:
+        session.close()
 
 
 def get_tasks_by_user(user_id: int):
     session = SessionLocal()
+    try:
+        user = session.query(User).filter(User.id == user_id).first()
+        if not user:
+            print(f"Usuario con ID {user_id} no existe.")
+            return None
+    except Exception as e:
+        print(f"Error al consultar usuario: {e}")
+        return None
     tasks = session.query(Task).filter(Task.user_id == user_id).all()
     session.close()
     return tasks

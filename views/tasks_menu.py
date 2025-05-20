@@ -62,9 +62,7 @@ def get_task_by_id_menu():
     task_id = int(input("Ingrese el ID de la tarea: "))
     task = get_task_by_id(task_id)
     if task:
-        print(f"Tarea encontrada: {task}")
-    else:
-        print("Tarea no encontrada.")
+        print(task)
     print("===============================")
 
 
@@ -87,7 +85,14 @@ def update_task_menu():
     description = input(
         "Ingrese la nueva descripción de la tarea (dejar vacío para no cambiar): "
     )
-    is_done = input("¿La tarea está completada? (s/n): ").lower() == "s"
+    is_done = input("¿La tarea está completada? (s/n): ").lower()
+    if is_done == "s":
+        is_done = True
+    elif is_done == "n":
+        is_done = False
+    else:
+        print("Opción no válida. La tarea no se actualizará.")
+        return
     task = update_task(task_id, name, description, is_done)
     if task:
         print(f"Tarea actualizada: {task}")
@@ -102,6 +107,4 @@ def delete_task_menu():
     task = delete_task(task_id)
     if task:
         print(f"Tarea eliminada: {task}")
-    else:
-        print("Tarea no encontrada.")
     print("===============================")
