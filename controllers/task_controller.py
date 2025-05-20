@@ -61,9 +61,3 @@ def get_tasks_by_user(user_id: int):
     tasks = session.query(Task).filter(Task.user_id == user_id).all()
     session.close()
     return tasks
-
-def get_task_by_user_and_id(user_id: int, task_id: int):
-    session = SessionLocal()
-    task = session.query(Task).filter(Task.id == task_id, Task.user_id == user_id).first()
-    session.close()
-    return task
