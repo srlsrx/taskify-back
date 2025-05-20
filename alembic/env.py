@@ -5,7 +5,7 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from database.db import Base
+from models import Base
 from models.task_model import Task
 from models.user_model import User
 

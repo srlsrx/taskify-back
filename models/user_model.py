@@ -9,7 +9,7 @@ class User(Base):
     email = Column(String(100), nullable=False)
     password = Column(String(100), nullable=False)
 
-    tasks = relationship("Task_model", back_populates="user")
+    tasks = relationship("Task", back_populates="user")
 
     def __repr__(self):
-        return f"<User(id={self.id}, username={self.username})>"
+        return f"<User (id={self.id}, username={self.username}, email={self.email}) >"

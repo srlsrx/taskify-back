@@ -13,6 +13,7 @@ def create_task(name: str, description: str, user_id: int):
     task = Task(name=name, description=description, user_id=user_id)
     session.add(task)
     session.commit()
+    session.refresh(task)
     session.close()
     return task
 
@@ -52,8 +53,8 @@ def delete_task(task_id: int):
     if task:
         session.delete(task)
         session.commit()
-    session.close()
-    return task
+        session.close()
+        return task
 
 
 def get_tasks_by_user(user_id: int):

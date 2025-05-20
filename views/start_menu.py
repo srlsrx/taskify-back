@@ -220,3 +220,6 @@ def delete_task_menu():
     else:
         print("Tarea no encontrada.")
     print("===============================")
+
+
+display_start_menu()
