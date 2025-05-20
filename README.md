@@ -1,4 +1,3 @@
-
 # 📝 Proyecto TODO List - Python Vanilla + PostgreSQL
 
 Este proyecto es un ejemplo funcional de una aplicación de consola que permite gestionar tareas (CRUD) utilizando **Python**, **arquitectura MVC**, **SQLAlchemy** y **PostgreSQL**, sin frameworks.
@@ -7,10 +6,10 @@ Este proyecto es un ejemplo funcional de una aplicación de consola que permite 
 
 ## 📦 Requisitos previos
 
-- Python 3.10 o superior
-- PostgreSQL instalado
-- Acceso a `psql` desde consola
-- Git (opcional)
+-   Python 3.10 o superior
+-   PostgreSQL instalado
+-   Acceso a `psql` desde consola
+-   Git (opcional)
 
 ---
 
@@ -75,24 +74,24 @@ alembic init alembic
 
 ### 2. Configura Alembic
 
-- En `alembic.ini` revisa:
+-   En `alembic.ini` revisa:
 
-  ```ini
-  sqlalchemy.url = postgresql+pg8000://postgres:1234@localhost/todo_db
-  ```
+    ```ini
+    sqlalchemy.url = postgresql+pg8000://postgres:1234@localhost/todo_db
+    ```
 
-- En `alembic/env.py`, importa el modelo y apunta a los metadatos:
+-   En `alembic/env.py`, importa el modelo y apunta a los metadatos:
 
-  ```python
-  from database.db import Base
-  from models.task_model import Task
-  target_metadata = Base.metadata
-  ```
+    ```python
+    from database.db import Base
+    from models.task_model import Task
+    target_metadata = Base.metadata
+    ```
 
 ### 3. Crea y aplica la migración
 
 ```bash
-alembic revision --autogenerate -m "crear tabla tasks"
+alembic revision --autogenerate -m "crear tabla tasks y users"
 alembic upgrade head
 ```
 
@@ -140,7 +139,7 @@ todo_list/
 
 ## 🧹 Notas finales
 
-- No necesitas frontend, puedes ver la salida por consola.
-- El objetivo es entender cómo se estructura un proyecto con MVC y SQLAlchemy.
+-   No necesitas frontend, puedes ver la salida por consola.
+-   El objetivo es entender cómo se estructura un proyecto con MVC y SQLAlchemy.
 
 ¡Disfruta programando! 🐍✨
