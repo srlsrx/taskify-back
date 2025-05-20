@@ -102,7 +102,7 @@ alembic upgrade head
 Lanza el menú desde la raíz del proyecto:
 
 ```bash
-python views/task_view.py
+python views/start_menu.py
 ```
 
 Y verás:

@@ -1,4 +1,3 @@
-from models.task_model import Task
 from models.user_model import User
 from database.db import SessionLocal
 
@@ -48,4 +47,3 @@ def delete_user(user_id: int):
         session.commit()
     session.close()
     return user
-
