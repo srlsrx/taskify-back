@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import declarative_base, relationship
+from models import Base
 
-Base = declarative_base()
 class Task(Base):
     __tablename__ = 'tasks'
     id = Column(Integer, primary_key=True)
@@ -11,5 +11,6 @@ class Task(Base):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
     user = relationship("User", back_populates="tasks")
+
     def __repr__(self):
         return f"<Task(id={self.id}, name={self.name}, status={self.status})>"
