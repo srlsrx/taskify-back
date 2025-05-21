@@ -7,9 +7,16 @@ from controllers.task_controller import (
     get_tasks_by_user,
 )
 
+import utils.session
+import os
 
-def display_tasks_menu():
+def limpiar_consola():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def display_admin_tasks_menu():
     while True:
+        limpiar_consola()
         print("=== MENÚ TO-DO LIST ===")
         print("1. Crear tarea")
         print("2. Ver todas las tareas")
@@ -39,22 +46,69 @@ def display_tasks_menu():
             print("Opción no válida. Intente de nuevo.")
 
 
+def display_users_tasks_menu():
+    print(utils.session.current_user.id)
+    while True:
+        limpiar_consola()
+        print("=== MENÚ TO-DO LIST ===")
+        print("1. Crear tarea")
+        print("2. Ver mis tareas")
+        print("3. Actualizar tarea")
+        print("4. Eliminar tarea")
+        print("5. Salir")
+        print("=========================")
+        choice = input("Selecciona una opción (1-5):")
+        if choice == "1":
+            limpiar_consola()
+            create_task_menu()
+        elif choice == "2":
+            limpiar_consola()
+            tasks = get_tasks_by_user(utils.session.current_user.id)
+            if tasks:
+                for task in tasks:
+                    print(task)
+            else:
+                print("No tienes tareas asignadas")
+            input("Pulsa cualquier tecla para continuar...")
+        elif choice == "3":
+            limpiar_consola()
+            update_task_menu()
+        elif choice == "4":
+            limpiar_consola()
+            delete_task_menu()
+        elif choice == "5":
+            break
+        else:
+            print("Opcion no valida")
+
+
 def create_task_menu():
     print("=== CREAR TAREA ===")
-    name = input("Ingrese el nombre de la tarea: ")
-    description = input("Ingrese la descripción de la tarea: ")
-    user_id = int(input("Ingrese el ID del usuario: "))
-    task = create_task(name, description, user_id)
-    print(f"Tarea creada: {task}")
+    if utils.session.current_user.is_admin:
+        name = input("Ingrese el nombre de la tarea: ")
+        description = input("Ingrese la descripción de la tarea: ")
+        id = int(input("Ingrese el ID del usuario: "))
+        task = create_task(name, description, id)
+    else:
+        name = input("Ingrese el nombre de la tarea: ")
+        description = input("Ingrese la descripción de la tarea: ")
+        task = create_task(name, description, utils.session.current_user.id)
+    if task:
+        print(f"Tarea creada: {task}")
+    else:
+        print("Tarea no creada")
+    input("Pulsa cualquier tecla para continuar...")
     print("=====================")
 
 
 def get_all_tasks_menu():
     print("=== TODAS LAS TAREAS ===")
     tasks = get_all_tasks()
-    for task in tasks:
-        print(task)
+    if tasks:
+        for task in tasks:
+            print(task)
     print("===============================")
+    input("Pulsa cualquier tecla para continuar...")
 
 
 def get_task_by_id_menu():
@@ -64,6 +118,7 @@ def get_task_by_id_menu():
     if task:
         print(task)
     print("===============================")
+    input("Pulsa cualquier tecla para continuar...")
 
 
 def get_tasks_by_user_menu():
@@ -76,6 +131,7 @@ def get_tasks_by_user_menu():
     else:
         print("No se encontraron tareas para este usuario.")
     print("===============================")
+    input("Pulsa cualquier tecla para continuar...")
 
 
 def update_task_menu():
@@ -99,6 +155,7 @@ def update_task_menu():
     else:
         print("Tarea no encontrada.")
     print("===============================")
+    input("Pulsa cualquier tecla para continuar...")
 
 
 def delete_task_menu():
@@ -108,3 +165,11 @@ def delete_task_menu():
     if task:
         print(f"Tarea eliminada: {task}")
     print("===============================")
+    input("Pulsa cualquier tecla para continuar...")
+
+
+if utils.session.current_user:
+    if utils.session.current_user.is_admin:
+        display_admin_tasks_menu()
+    else:
+        display_users_tasks_menu()

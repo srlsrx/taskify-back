@@ -13,10 +13,4 @@ class User(Base):
     tasks = relationship("Task", back_populates="user")
 
     def __repr__(self):
-        return {
-            "id": self.id,
-            "username": self.username,
-            "email": self.email,
-            "is_admin": self.is_admin,
-            "password": self.password,
-        }
+        return f"<User(id={self.id}, username='{self.username}', email='{self.email}', is_admin={self.is_admin})>"

@@ -5,10 +5,15 @@ from controllers.user_controller import (
     update_user,
     delete_user,
 )
+import os
+
+def limpiar_consola():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def display_users_menu():
     while True:
+        limpiar_consola()
         print("=== MENÚ USUARIOS ===")
         print("1. Crear usuario")
         print("2. Ver todos los usuarios")
@@ -32,7 +37,7 @@ def display_users_menu():
             print("Saliendo del menú...")
             break
         else:
-            print("Opción no válida. Intente de nuevo.")
+            print("\033[91mOpción no válida. Intente de nuevo.\033[0m")
 
 
 def create_user_menu():
