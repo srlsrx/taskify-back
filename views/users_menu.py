@@ -7,8 +7,9 @@ from controllers.user_controller import (
 )
 import os
 
+
 def limpiar_consola():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 def display_users_menu():
@@ -43,50 +44,156 @@ def display_users_menu():
 
 
 def create_user_menu():
-    print("=== CREAR USUARIO ===")
-    username = input("Ingrese el nombre de usuario: ")
-    email = input("Ingrese el correo electrónico: ")
-    password = input("Ingrese la contraseña: ")
+    limpiar_consola()
+    print("\033[1;96m╔════════════════════════════════╗")
+    print("║         ➕ CREAR USUARIO        ║")
+    print("╚════════════════════════════════╝\033[0m")
+
+    username = input("\033[1;93m👤 Nombre de usuario: \033[0m")
+    email = input("\033[1;93m📧 Correo electrónico: \033[0m")
+    password = input("\033[1;93m🔒 Contraseña: \033[0m")
+
     user = create_user(username, email, password)
-    print(f"Usuario creado: Username: {user.username}, Correo: {user.email}, Admin: {user.is_admin}")
-    print("=====================")
+
+    print()
+    if user:
+        print("\033[1;92m✅ Usuario creado correctamente:\033[0m")
+        print(f"\033[1;96m• Nombre de usuario:\033[0m {user.username}")
+        print(f"\033[1;96m• Correo electrónico:\033[0m {user.email}")
+        print(f"\033[1;96m• ¿Es admin?:\033[0m {'Sí' if user.is_admin else 'No'}")
+    else:
+        print("\033[1;91m❌ No se pudo crear el usuario.\033[0m")
+
+    print("\033[1;94m════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def get_all_users_menu():
-    print("=== TODOS LOS USUARIOS ===")
+    limpiar_consola()
+    print("\033[1;96m╔═════════════════════════════════╗")
+    print("║       👥 TODOS LOS USUARIOS      ║")
+    print("╚═════════════════════════════════╝\033[0m")
+
     users = get_all_users()
+
     if users:
+        print("\033[1;93mListado de usuarios:\033[0m\n")
         for user in users:
-            print(f"ID: {user.id}, Username: {user.username}, Correo: {user.email}")
-    print("===============================")
+            print(
+                f"\033[1;96m• ID:\033[0m {user.id} \033[1;96m| Usuario:\033[0m {user.username} \033[1;96m|\
+                Correo:\033[0m {user.email}"
+            )
+    else:
+        print("\033[1;91m❌ No hay usuarios registrados.\033[0m")
+
+    print("\n\033[1;94m═════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def get_user_by_id_menu():
-    print("=== CONSULTAR USUARIO POR ID ===")
-    user_id = int(input("Ingrese el ID del usuario: "))
+    limpiar_consola()
+    print("\033[1;96m╔══════════════════════════════════════╗")
+    print("║     🔍 CONSULTAR USUARIO POR ID      ║")
+    print("╚══════════════════════════════════════╝\033[0m")
+
+    try:
+        user_id = int(input("\033[1;93m🔢 Ingrese el ID del usuario: \033[0m"))
+    except ValueError:
+        print("\033[1;91m❌ ID inválido. Debe ser un número entero.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
     user = get_user_by_id(user_id)
+
+    print()
     if user:
-        print(f"Usuario encontrado: Username: {user.username}, Correo: {user.email}, Admin: {user.is_admin}")
-    print("===============================")
+        print("\033[1;92m✅ Usuario encontrado:\033[0m")
+        print(f"\033[1;96m• Nombre de usuario:\033[0m {user.username}")
+        print(f"\033[1;96m• Correo electrónico:\033[0m {user.email}")
+        print(f"\033[1;96m• ¿Es admin?:\033[0m {'Sí' if user.is_admin else 'No'}")
+    else:
+        print("\033[1;91m❌ No se encontró ningún usuario con ese ID.\033[0m")
+
+    print("\n\033[1;94m══════════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def update_user_menu():
-    print("=== ACTUALIZAR USUARIO ===")
-    user_id = int(input("Ingrese el ID del usuario a actualizar: "))
-    username = input("Ingrese el nuevo nombre de usuario (dejar vacío para no cambiar): ")
-    email = input("Ingrese el nuevo correo electrónico (dejar vacío para no cambiar): ")
-    password = input("Ingrese la nueva contraseña (dejar vacío para no cambiar): ")
-    is_admin = input("¿Es administrador? (s/n): ").lower() == "s"
+    limpiar_consola()
+    print("\033[1;96m╔══════════════════════════════════╗")
+    print("║       🔄 ACTUALIZAR USUARIO       ║")
+    print("╚══════════════════════════════════╝\033[0m")
+
+    try:
+        user_id = int(
+            input("\033[1;93m🔢 Ingrese el ID del usuario a actualizar: \033[0m")
+        )
+    except ValueError:
+        print("\033[1;91m❌ ID inválido. Debe ser un número entero.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
+    username = input(
+        "\033[1;93m👤 Nuevo nombre de usuario (dejar vacío para no cambiar): \033[0m"
+    )
+    email = input(
+        "\033[1;93m📧 Nuevo correo electrónico (dejar vacío para no cambiar): \033[0m"
+    )
+    password = input(
+        "\033[1;93m🔒 Nueva contraseña (dejar vacío para no cambiar): \033[0m"
+    )
+    admin_input = input("\033[1;93m👑 ¿Es administrador? (s/n): \033[0m").lower()
+
+    if admin_input == "s":
+        is_admin = True
+    elif admin_input == "n":
+        is_admin = False
+    else:
+        print("\033[1;91m❌ Opción inválida. El usuario no se actualizará.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
     user = update_user(user_id, username, email, password, is_admin)
+
+    print()
     if user:
-        print(f"Usuario actualizado: Username: {user.username}, Correo: {user.email}, Admin: {user.is_admin}")
-    print("===============================")
+        print("\033[1;92m✅ Usuario actualizado correctamente:\033[0m")
+        print(f"\033[1;96m• Usuario:\033[0m {user.username}")
+        print(f"\033[1;96m• Correo:\033[0m {user.email}")
+        print(f"\033[1;96m• ¿Es admin?:\033[0m {'Sí' if user.is_admin else 'No'}")
+    else:
+        print("\033[1;91m❌ No se encontró ningún usuario con ese ID.\033[0m")
+
+    print("\033[1;94m══════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def delete_user_menu():
-    print("=== ELIMINAR USUARIO ===")
-    user_id = int(input("Ingrese el ID del usuario a eliminar: "))
+    limpiar_consola()
+    print("\033[1;96m╔════════════════════════════════╗")
+    print("║        🗑️  ELIMINAR USUARIO       ║")
+    print("╚════════════════════════════════╝\033[0m")
+
+    try:
+        user_id = int(input("\033[1;93m🔢 Ingrese el ID del usuario a eliminar: \033[0m"))
+    except ValueError:
+        print("\033[1;91m❌ ID inválido. Debe ser un número entero.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
+    confirm = input("\033[1;93m⚠️ ¿Estás seguro que deseas eliminar este usuario? (s/n): \033[0m").lower()
+    if confirm != "s":
+        print("\033[1;94mCancelado. El usuario no fue eliminado.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
     user = delete_user(user_id)
+
+    print()
     if user:
-        print(f"Usuario eliminado: {user.username}")
-    print("===============================")
+        print(f"\033[1;92m✅ Usuario eliminado:\033[0m {user.username}")
+    else:
+        print("\033[1;91m❌ No se encontró ningún usuario con ese ID.\033[0m")
+
+    print("\033[1;94m════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")

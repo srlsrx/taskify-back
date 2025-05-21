@@ -6,6 +6,7 @@ from controllers.task_controller import (
     update_task,
     get_tasks_by_user,
 )
+from controllers.user_controller import get_user_by_id
 
 import utils.session
 import os
@@ -70,12 +71,26 @@ def display_users_tasks_menu():
         elif choice == "2":
             limpiar_consola()
             tasks = get_tasks_by_user(utils.session.current_user.id)
+
+            print("\033[1;96m╔══════════════════════════════╗")
+            print("║        📋 TUS TAREAS         ║")
+            print("╚══════════════════════════════╝\033[0m")
+
             if tasks:
-                for task in tasks:
-                    print(task)
+                for i, task in enumerate(tasks, 1):
+                    print(f"\n\033[1;92m✅ Tarea {i}\033[0m")
+                    print(f"\033[1;96m• ID:\033[0m {task.id}")
+                    print(f"\033[1;96m• Título:\033[0m {task.name}")
+                    if task.description:
+                        print(f"\033[1;96m• Descripción:\033[0m {task.description}")
+                    else:
+                        print("\033[1;96m• Descripción:\033[0m (sin descripción)")
+                    print(f"\033[1;96m• ¿Está hecha?:\033[0m {'Sí' if task.is_done else 'No'}")
             else:
-                print("No tienes tareas asignadas")
-            input("Pulsa cualquier tecla para continuar...")
+                print("\033[1;91m❌ No tienes tareas asignadas.\033[0m")
+
+            print("\n\033[1;94m══════════════════════════════\033[0m")
+            input("\033[1;90mPulsa ENTER para continuar...\033[0m")
         elif choice == "3":
             limpiar_consola()
             update_task_menu()
@@ -128,10 +143,22 @@ def get_all_tasks_menu():
     tasks = get_all_tasks()
 
     if tasks:
-        for task in tasks:
-            print(f"\033[1;93m• {task}\033[0m")
+        for i, task in enumerate(tasks, 1):
+            print(f"\n\033[1;92m✅ Tarea {i}\033[0m")
+            print(f"\033[1;96m• ID:\033[0m {task.id}")
+            print(f"\033[1;96m• Título:\033[0m {task.name}")
+            if task.description:
+                print(f"\033[1;96m• Descripción:\033[0m {task.description}")
+            else:
+                print("\033[1;96m• Descripción:\033[0m (sin descripción)")
+            print(f"\033[1;96m• ¿Está hecha?:\033[0m {'Sí' if task.is_done else 'No'}")
+            user = get_user_by_id(task.user_id)
+            print(f"\033[1;96m• Usuario:\033[0m {user.username}")
     else:
-        print("\033[1;91mNo hay tareas registradas.\033[0m")
+        print("\033[1;91m❌ No hay ninguna tarea.\033[0m")
+
+        print("\n\033[1;94m══════════════════════════════\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
     print("\033[1;94m══════════════════════════════════════\033[0m")
     input("\033[1;90mPulsa ENTER para continuar...\033[0m")
@@ -154,10 +181,16 @@ def get_task_by_id_menu():
 
     print()
     if task:
-        print(f"\033[1;92m✅ Tarea encontrada:\033[0m {task}")
+        print("\033[1;92m✅ Tarea encontrada:\033[0m")
+        print(f"\033[1;96m• ID:\033[0m {task.id}")
+        print(f"\033[1;96m• Título:\033[0m {task.name}")
+        if task.description:
+            print(f"\033[1;96m• Descripción:\033[0m {task.description}")
+        else:
+            print("\033[1;96m• Descripción:\033[0m (sin descripción)")
+        print(f"\033[1;96m• ¿Está hecha?:\033[0m {'Sí' if task.is_done else 'No'}")
     else:
         print("\033[1;91m❌ No se encontró ninguna tarea con ese ID.\033[0m")
-
     print("\033[1;94m══════════════════════════════════════\033[0m")
     input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
@@ -180,8 +213,15 @@ def get_tasks_by_user_menu():
     print()
     if tasks:
         print(f"\033[1;92m✅ Se encontraron {len(tasks)} tarea(s):\033[0m")
-        for task in tasks:
-            print(f"\033[1;93m• {task}\033[0m")
+        for i, task in enumerate(tasks, 1):
+            print(f"\n\033[1;93m📝 Tarea {i}\033[0m")
+            print(f"\033[1;96m• ID:\033[0m {task.id}")
+            print(f"\033[1;96m• Título:\033[0m {task.name}")
+            if task.description:
+                print(f"\033[1;96m• Descripción:\033[0m {task.description}")
+            else:
+                print("\033[1;96m• Descripción:\033[0m (sin descripción)")
+            print(f"\033[1;96m• ¿Está hecha?:\033[0m {'Sí' if task.is_done else 'No'}")
     else:
         print("\033[1;91m❌ No se encontraron tareas para este usuario.\033[0m")
 
@@ -219,7 +259,14 @@ def update_task_menu():
 
     print()
     if task:
-        print(f"\033[1;92m✅ Tarea actualizada:\033[0m {task}")
+        print("\033[1;92m✅ Tarea actualizada correctamente:\033[0m")
+        print(f"\033[1;96m• ID:\033[0m {task.id}")
+        print(f"\033[1;96m• Título:\033[0m {task.name}")
+        if task.description:
+            print(f"\033[1;96m• Descripción:\033[0m {task.description}")
+        else:
+            print("\033[1;96m• Descripción:\033[0m (sin descripción)")
+        print(f"\033[1;96m• ¿Está hecha?:\033[0m {'Sí' if task.is_done else 'No'}")
     else:
         print("\033[1;91m❌ No se encontró ninguna tarea con ese ID.\033[0m")
 
