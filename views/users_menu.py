@@ -48,8 +48,9 @@ def create_user_menu():
 def get_all_users_menu():
     print("=== TODOS LOS USUARIOS ===")
     users = get_all_users()
-    for user in users:
-        print(user)
+    if users:
+        for user in users:
+            print(f"ID: {user.id}, Nombre: {user.username}, Correo: {user.email}")
     print("===============================")
 
 
@@ -59,8 +60,6 @@ def get_user_by_id_menu():
     user = get_user_by_id(user_id)
     if user:
         print(f"Usuario encontrado: {user}")
-    else:
-        print("Usuario no encontrado.")
     print("===============================")
 
 
@@ -73,8 +72,6 @@ def update_user_menu():
     user = update_user(user_id, username, email, password)
     if user:
         print(f"Usuario actualizado: {user}")
-    else:
-        print("Usuario no encontrado.")
     print("===============================")
 
 
@@ -84,6 +81,4 @@ def delete_user_menu():
     user = delete_user(user_id)
     if user:
         print(f"Usuario eliminado: {user}")
-    else:
-        print("Usuario no encontrado.")
     print("===============================")
