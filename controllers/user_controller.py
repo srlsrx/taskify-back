@@ -30,7 +30,7 @@ def get_user_by_id(user_id: int):
     finally:
         session.close()
 
-def create_user(username: str, email: str, password: str):
+def create_user(username: str, email: str, password: str, is_admin: bool = False):
     session = SessionLocal()
     try:
         if not username or not email or not password:
@@ -40,7 +40,7 @@ def create_user(username: str, email: str, password: str):
         if user:
             print(f"El usuario {username} ya existe.")
             return None
-        user = User(username=username, email=email, password=password)
+        user = User(username=username, email=email, password=password, is_admin=is_admin)
         session.add(user)
         session.commit()
         session.refresh(user)
@@ -51,7 +51,7 @@ def create_user(username: str, email: str, password: str):
     finally:
         session.close()
 
-def update_user(user_id: int, username: str = None, email: str = None, password: str = None):
+def update_user(user_id: int, username: str = None, email: str = None, password: str = None, is_admin: bool = None):
     session = SessionLocal()
     try:
         user = session.query(User).filter(User.id == user_id).first()
@@ -64,6 +64,8 @@ def update_user(user_id: int, username: str = None, email: str = None, password:
             user.email = email
         if password:
             user.password = password
+        if is_admin:
+            user.is_admin = is_admin
         session.commit()
         session.refresh(user)
         return user
@@ -85,6 +87,36 @@ def delete_user(user_id: int):
         return user
     except Exception as e:
         print(f"Error al eliminar usuario: {e}")
+        return None
+    finally:
+        session.close()
+
+
+def get_password_by_username(username: str):
+    session = SessionLocal()
+    try:
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            print(f"Usuario con nombre {username} no existe.")
+            return None
+        return user.password
+    except Exception as e:
+        print(f"Error al consultar usuario: {e}")
+        return None
+    finally:
+        session.close()
+
+
+def get_user_by_username(username: str):
+    session = SessionLocal()
+    try:
+        user = session.query(User).filter(User.username == username).first()
+        if not user:
+            print(f"Usuario con nombre {username} no existe.")
+            return None
+        return user
+    except Exception as e:
+        print(f"Error al consultar usuario: {e}")
         return None
     finally:
         session.close()

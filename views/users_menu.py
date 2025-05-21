@@ -41,7 +41,7 @@ def create_user_menu():
     email = input("Ingrese el correo electrónico: ")
     password = input("Ingrese la contraseña: ")
     user = create_user(username, email, password)
-    print(f"Usuario creado: {user}")
+    print(f"Usuario creado: Username: {user.username}, Correo: {user.email}, Admin: {user.is_admin}")
     print("=====================")
 
 
@@ -50,7 +50,7 @@ def get_all_users_menu():
     users = get_all_users()
     if users:
         for user in users:
-            print(f"ID: {user.id}, Nombre: {user.username}, Correo: {user.email}")
+            print(f"ID: {user.id}, Username: {user.username}, Correo: {user.email}")
     print("===============================")
 
 
@@ -59,7 +59,7 @@ def get_user_by_id_menu():
     user_id = int(input("Ingrese el ID del usuario: "))
     user = get_user_by_id(user_id)
     if user:
-        print(f"Usuario encontrado: {user}")
+        print(f"Usuario encontrado: Username: {user.username}, Correo: {user.email}, Admin: {user.is_admin}")
     print("===============================")
 
 
@@ -69,9 +69,10 @@ def update_user_menu():
     username = input("Ingrese el nuevo nombre de usuario (dejar vacío para no cambiar): ")
     email = input("Ingrese el nuevo correo electrónico (dejar vacío para no cambiar): ")
     password = input("Ingrese la nueva contraseña (dejar vacío para no cambiar): ")
-    user = update_user(user_id, username, email, password)
+    is_admin = input("¿Es administrador? (s/n): ").lower() == "s"
+    user = update_user(user_id, username, email, password, is_admin)
     if user:
-        print(f"Usuario actualizado: {user}")
+        print(f"Usuario actualizado: Username: {user.username}, Correo: {user.email}, Admin: {user.is_admin}")
     print("===============================")
 
 
@@ -80,5 +81,5 @@ def delete_user_menu():
     user_id = int(input("Ingrese el ID del usuario a eliminar: "))
     user = delete_user(user_id)
     if user:
-        print(f"Usuario eliminado: {user}")
+        print(f"Usuario eliminado: {user.username}")
     print("===============================")
