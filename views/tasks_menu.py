@@ -190,37 +190,72 @@ def get_tasks_by_user_menu():
 
 
 def update_task_menu():
-    print("=== ACTUALIZAR TAREA ===")
-    task_id = int(input("Ingrese el ID de la tarea a actualizar: "))
-    name = input("Ingrese el nuevo nombre de la tarea (dejar vacío para no cambiar): ")
-    description = input(
-        "Ingrese la nueva descripción de la tarea (dejar vacío para no cambiar): "
-    )
-    is_done = input("¿La tarea está completada? (s/n): ").lower()
-    if is_done == "s":
+    limpiar_consola()
+    print("\033[1;96m╔══════════════════════════════════╗")
+    print("║        🔄 ACTUALIZAR TAREA       ║")
+    print("╚══════════════════════════════════╝\033[0m")
+
+    try:
+        task_id = int(input("\033[1;93m🔢 Ingrese el ID de la tarea a actualizar: \033[0m"))
+    except ValueError:
+        print("\033[1;91m❌ ID inválido. Debe ser un número entero.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
+    name = input("\033[1;93m✏️ Nuevo nombre (dejar vacío para no cambiar): \033[0m")
+    description = input("\033[1;93m📝 Nueva descripción (dejar vacío para no cambiar): \033[0m")
+    is_done_input = input("\033[1;93m✅ ¿Está completada? (s/n): \033[0m").lower()
+
+    if is_done_input == "s":
         is_done = True
-    elif is_done == "n":
+    elif is_done_input == "n":
         is_done = False
     else:
-        print("Opción no válida. La tarea no se actualizará.")
+        print("\033[1;91m❌ Opción no válida. La tarea no se actualizará.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
         return
+
     task = update_task(task_id, name, description, is_done)
+
+    print()
     if task:
-        print(f"Tarea actualizada: {task}")
+        print(f"\033[1;92m✅ Tarea actualizada:\033[0m {task}")
     else:
-        print("Tarea no encontrada.")
-    print("===============================")
-    input("Pulsa cualquier tecla para continuar...")
+        print("\033[1;91m❌ No se encontró ninguna tarea con ese ID.\033[0m")
+
+    print("\033[1;94m══════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def delete_task_menu():
-    print("=== ELIMINAR TAREA ===")
-    task_id = int(input("Ingrese el ID de la tarea a eliminar: "))
-    task = delete_task(task_id)
-    if task:
-        print(f"Tarea eliminada: {task}")
-    print("===============================")
-    input("Pulsa cualquier tecla para continuar...")
+    limpiar_consola()
+    print("\033[1;96m╔════════════════════════════════╗")
+    print("║        🗑️  ELIMINAR TAREA       ║")
+    print("╚════════════════════════════════╝\033[0m")
+
+    try:
+        task_id = int(input("\033[1;93m🔢 Ingrese el ID de la tarea a eliminar: \033[0m"))
+    except ValueError:
+        print("\033[1;91m❌ ID inválido. Debe ser un número entero.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
+    confirm = input("\033[1;93m⚠️ ¿Estás seguro de que quieres eliminarla? (s/n): \033[0m").lower()
+    if confirm != "s":
+        print("\033[1;94mCancelado. La tarea no fue eliminada.\033[0m")
+        input("\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
+    deleted = delete_task(task_id)
+
+    print()
+    if deleted:
+        print("\033[1;92m✅ Tarea eliminada correctamente.\033[0m")
+    else:
+        print("\033[1;91m❌ No se encontró ninguna tarea con ese ID.\033[0m")
+
+    print("\033[1;94m════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 if utils.session.current_user:

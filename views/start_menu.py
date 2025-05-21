@@ -28,7 +28,7 @@ def display_login_menu():
     print("                                    ")
     print("        \033[1;95mTo-Do by Julia & Nico\033[1;96m")
     print("════════════════════════════════════\033[0m")
-    
+
     username = input("\033[1;93m👤 Usuario: \033[0m")
     password = input("\033[1;93m🔒 Contraseña: \033[0m")
     if not username or not password:
