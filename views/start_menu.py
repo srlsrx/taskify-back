@@ -15,9 +15,22 @@ def limpiar_consola():
 # =================== MENÚ INICIAL ===================
 def display_login_menu():
     limpiar_consola()
-    print("=== MENÚ DE INICIO DE SESIÓN ===")
-    username = input("Ingrese su nombre de usuario: ")
-    password = input("Ingrese su contraseña: ")
+    # print("=== MENÚ DE INICIO DE SESIÓN ===")
+    # username = input("Ingrese su nombre de usuario: ")
+    # password = input("Ingrese su contraseña: ")
+    print("\033[1;96m")
+    print("  _______        _        _         ")
+    print(" |__   __|      | |      | |        ")
+    print("    | | ___  ___| |_ __ _| | _____  ")
+    print("    | |/ _ \\/ __| __/ _` | |/ / _ \\ ")
+    print("    | |  __/\\__ \\ || (_| |   <  __/ ")
+    print("    |_|\\___||___/\\__\\__,_|_|\\\\___| ")
+    print("                                    ")
+    print("        \033[1;95mTo-Do by Julia & Nico\033[1;96m")
+    print("════════════════════════════════════\033[0m")
+    
+    username = input("\033[1;93m👤 Usuario: \033[0m")
+    password = input("\033[1;93m🔒 Contraseña: \033[0m")
     if not username or not password:
         print("\033[91mEl nombre de usuario y la contraseña son obligatorios.\033[0m")
         return None
@@ -36,12 +49,15 @@ def display_login_menu():
 def display_admin_menu():
     while True:
         limpiar_consola()
-        print("=== MENÚ ADMINISTRADOR ===")
-        print("1. Usuarios")
-        print("2. Tareas")
-        print("3. Salir")
-        print("=========================")
-        choice = input("Seleccione una opción: ")
+        print("\033[1;96m╔═══════════════════════════════════════╗")
+        print("║         🛠️  MENÚ ADMINISTRADOR         ║")
+        print("╠═══════════════════════════════════════╣")
+        print("║ \033[1;93m1.\033[1;96m Usuarios                           ║")
+        print("║ \033[1;93m2.\033[1;96m Tareas                             ║")
+        print("║ \033[1;91m3.\033[1;96m Salir                              ║")
+        print("╚═══════════════════════════════════════╝\033[0m")
+
+        choice = input("\033[1mSeleccione una opción: \033[0m")
         if choice == "1":
             display_users_menu()
         elif choice == "2":

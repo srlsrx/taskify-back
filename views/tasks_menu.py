@@ -17,16 +17,19 @@ def limpiar_consola():
 def display_admin_tasks_menu():
     while True:
         limpiar_consola()
-        print("=== MENÚ TO-DO LIST ===")
-        print("1. Crear tarea")
-        print("2. Ver todas las tareas")
-        print("3. Ver tarea por ID")
-        print("4. Ver tareas por usuario")
-        print("5. Actualizar tarea")
-        print("6. Eliminar tarea")
-        print("7. Salir")
-        print("=========================")
-        choice = input("Seleccione una opción: ")
+        print("\033[1;96m╔══════════════════════════════════════╗")
+        print("║        ✅  MENÚ TO-DO LIST           ║")
+        print("╠══════════════════════════════════════╣")
+        print("║ \033[1;93m1.\033[1;96m Crear tarea                       ║")
+        print("║ \033[1;93m2.\033[1;96m Ver todas las tareas              ║")
+        print("║ \033[1;93m3.\033[1;96m Ver tarea por ID                  ║")
+        print("║ \033[1;93m4.\033[1;96m Ver tareas por usuario            ║")
+        print("║ \033[1;93m5.\033[1;96m Actualizar tarea                  ║")
+        print("║ \033[1;93m6.\033[1;96m Eliminar tarea                    ║")
+        print("║ \033[1;91m7.\033[1;96m Salir                             ║")
+        print("╚══════════════════════════════════════╝\033[0m")
+
+        choice = input("\033[1mSeleccione una opción: \033[0m")
         if choice == "1":
             create_task_menu()
         elif choice == "2":
@@ -50,14 +53,17 @@ def display_users_tasks_menu():
     print(utils.session.current_user.id)
     while True:
         limpiar_consola()
-        print("=== MENÚ TO-DO LIST ===")
-        print("1. Crear tarea")
-        print("2. Ver mis tareas")
-        print("3. Actualizar tarea")
-        print("4. Eliminar tarea")
-        print("5. Salir")
-        print("=========================")
-        choice = input("Selecciona una opción (1-5):")
+        print("\033[1;96m╔══════════════════════════════════════╗")
+        print("║        📋  MENÚ TO-DO LIST           ║")
+        print("╠══════════════════════════════════════╣")
+        print("║ \033[1;93m1.\033[1;96m Crear tarea                       ║")
+        print("║ \033[1;93m2.\033[1;96m Ver mis tareas                    ║")
+        print("║ \033[1;93m3.\033[1;96m Actualizar tarea                  ║")
+        print("║ \033[1;93m4.\033[1;96m Eliminar tarea                    ║")
+        print("║ \033[1;91m5.\033[1;96m Salir                             ║")
+        print("╚══════════════════════════════════════╝\033[0m")
+
+        choice = input("\033[1mSelecciona una opción (1-5): \033[0m")
         if choice == "1":
             limpiar_consola()
             create_task_menu()
@@ -83,55 +89,104 @@ def display_users_tasks_menu():
 
 
 def create_task_menu():
-    print("=== CREAR TAREA ===")
+    limpiar_consola()
+    print("\033[1;96m╔═══════════════════════════════╗")
+    print("║        ✏️  CREAR TAREA         ║")
+    print("╚═══════════════════════════════╝\033[0m")
+
     if utils.session.current_user.is_admin:
-        name = input("Ingrese el nombre de la tarea: ")
-        description = input("Ingrese la descripción de la tarea: ")
-        id = int(input("Ingrese el ID del usuario: "))
+        print("\033[1m(Eres administrador, puedes asignar tareas a otros usuarios)\033[0m")
+        print("")
+        name = input("\033[1;93m📌 Nombre de la tarea: \033[0m")
+        description = input("\033[1;93m📝 Descripción: \033[0m")
+        try:
+            id = int(input("\033[1;93m👤 ID del usuario asignado: \033[0m"))
+        except ValueError:
+            print("\033[1;91mID inválido. Debe ser un número entero.\033[0m")
+            return
         task = create_task(name, description, id)
     else:
-        name = input("Ingrese el nombre de la tarea: ")
-        description = input("Ingrese la descripción de la tarea: ")
+        name = input("\033[1;93m📌 Nombre de la tarea: \033[0m")
+        description = input("\033[1;93m📝 Descripción: \033[0m")
         task = create_task(name, description, utils.session.current_user.id)
+
+    print()
     if task:
-        print(f"Tarea creada: {task}")
+        print(f"\033[1;92m✅ Tarea creada:\033[0m {task}")
     else:
-        print("Tarea no creada")
-    input("Pulsa cualquier tecla para continuar...")
-    print("=====================")
+        print("\033[1;91m❌ No se pudo crear la tarea.\033[0m")
+
+    input("\n\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def get_all_tasks_menu():
-    print("=== TODAS LAS TAREAS ===")
+    limpiar_consola()
+    print("\033[1;96m╔══════════════════════════════╗")
+    print("║       📋 TODAS LAS TAREAS    ║")
+    print("╚══════════════════════════════╝\033[0m")
+
     tasks = get_all_tasks()
+
     if tasks:
         for task in tasks:
-            print(task)
-    print("===============================")
-    input("Pulsa cualquier tecla para continuar...")
+            print(f"\033[1;93m• {task}\033[0m")
+    else:
+        print("\033[1;91mNo hay tareas registradas.\033[0m")
+
+    print("\033[1;94m══════════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def get_task_by_id_menu():
-    print("=== CONSULTAR TAREA POR ID ===")
-    task_id = int(input("Ingrese el ID de la tarea: "))
+    limpiar_consola()
+    print("\033[1;96m╔══════════════════════════════════════╗")
+    print("║      🔍 CONSULTAR TAREA POR ID       ║")
+    print("╚══════════════════════════════════════╝\033[0m")
+
+    try:
+        task_id = int(input("\033[1;93m🔢 Ingrese el ID de la tarea: \033[0m"))
+    except ValueError:
+        print("\033[1;91m❌ ID inválido. Debe ser un número entero.\033[0m")
+        input("\n\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
     task = get_task_by_id(task_id)
+
+    print()
     if task:
-        print(task)
-    print("===============================")
-    input("Pulsa cualquier tecla para continuar...")
+        print(f"\033[1;92m✅ Tarea encontrada:\033[0m {task}")
+    else:
+        print("\033[1;91m❌ No se encontró ninguna tarea con ese ID.\033[0m")
+
+    print("\033[1;94m══════════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def get_tasks_by_user_menu():
-    print("=== CONSULTAR TAREAS POR USUARIO ===")
-    user_id = int(input("Ingrese el ID del usuario: "))
+    limpiar_consola()
+    print("\033[1;96m╔════════════════════════════════════════════╗")
+    print("║     👤 CONSULTAR TAREAS POR USUARIO        ║")
+    print("╚════════════════════════════════════════════╝\033[0m")
+
+    try:
+        user_id = int(input("\033[1;93m🔢 Ingrese el ID del usuario: \033[0m"))
+    except ValueError:
+        print("\033[1;91m❌ ID inválido. Debe ser un número entero.\033[0m")
+        input("\n\033[1;90mPulsa ENTER para continuar...\033[0m")
+        return
+
     tasks = get_tasks_by_user(user_id)
+
+    print()
     if tasks:
+        print(f"\033[1;92m✅ Se encontraron {len(tasks)} tarea(s):\033[0m")
         for task in tasks:
-            print(task)
+            print(f"\033[1;93m• {task}\033[0m")
     else:
-        print("No se encontraron tareas para este usuario.")
-    print("===============================")
-    input("Pulsa cualquier tecla para continuar...")
+        print("\033[1;91m❌ No se encontraron tareas para este usuario.\033[0m")
+
+    print("\033[1;94m════════════════════════════════════════════\033[0m")
+    input("\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
 def update_task_menu():
