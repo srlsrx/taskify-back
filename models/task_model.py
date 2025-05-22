@@ -13,4 +13,7 @@ class Task(Base):
     user = relationship("User", back_populates="tasks")
 
     def __repr__(self):
-        return f"<Task (id={self.id}, name={self.name}, is done={self.is_done}) >"
+        try:
+            return f"<Task (id={self.id}, name={self.name}, is_done={self.is_done})>"
+        except Exception:
+            return "<Task>"

@@ -16,6 +16,7 @@ def get_all_users():
     finally:
         session.close()
 
+
 def get_user_by_id(user_id: int):
     session = SessionLocal()
     try:
@@ -30,17 +31,23 @@ def get_user_by_id(user_id: int):
     finally:
         session.close()
 
-def create_user(username: str, email: str, password: str, is_admin: bool = False):
+
+def create_user(user_data):
     session = SessionLocal()
     try:
-        if not username or not email or not password:
+        if not user_data.username or not user_data.email or not user_data.password:
             print("Todos los campos son obligatorios.")
             return None
-        user = session.query(User).filter(User.username == username).first()
+        user = session.query(User).filter(User.username == user_data.username).first()
         if user:
-            print(f"El usuario {username} ya existe.")
+            print(f"El usuario {user_data.username} ya existe.")
             return None
-        user = User(username=username, email=email, password=password, is_admin=is_admin)
+        user = User(
+            username=user_data.username,
+            email=user_data.email,
+            password=user_data.password,
+            is_admin=user_data.is_admin,
+        )
         session.add(user)
         session.commit()
         session.refresh(user)
@@ -51,21 +58,22 @@ def create_user(username: str, email: str, password: str, is_admin: bool = False
     finally:
         session.close()
 
-def update_user(user_id: int, username: str = None, email: str = None, password: str = None, is_admin: bool = None):
+
+def update_user(user_id: int, user_data):
     session = SessionLocal()
     try:
         user = session.query(User).filter(User.id == user_id).first()
         if not user:
             print(f"Usuario con ID {user_id} no existe.")
             return None
-        if username:
-            user.username = username
-        if email:
-            user.email = email
-        if password:
-            user.password = password
-        if is_admin:
-            user.is_admin = is_admin
+        if user_data.username is not None:
+            user.username = user_data.username
+        if user_data.email is not None:
+            user.email = user_data.email
+        if user_data.password is not None:
+            user.password = user_data.password
+        if user_data.is_admin is not None:
+            user.is_admin = user_data.is_admin
         session.commit()
         session.refresh(user)
         return user
@@ -74,6 +82,7 @@ def update_user(user_id: int, username: str = None, email: str = None, password:
         return None
     finally:
         session.close()
+
 
 def delete_user(user_id: int):
     session = SessionLocal()

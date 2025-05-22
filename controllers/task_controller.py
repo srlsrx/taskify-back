@@ -1,12 +1,7 @@
-# - ✅ Crear una tarea con título y descripción
-# - ✅ Ver todas las tareas existentes
-# - ✅ Consultar una tarea por ID
-# - ✅ Actualizar una tarea existente (título, descripción o estado)
-# - ✅ Eliminar una tarea
-
 from models.task_model import Task
 from models.user_model import User
 from database.db import SessionLocal
+from sqlalchemy.orm import joinedload
 
 def create_task(name: str, description: str, user_id: int):
     session = SessionLocal()
@@ -22,6 +17,7 @@ def create_task(name: str, description: str, user_id: int):
         session.add(task)
         session.commit()
         session.refresh(task)
+        task = session.query(Task).options(joinedload(Task.user)).filter(Task.id == task.id).first()
         return task
     except Exception as e:
         print(f"Error al crear tarea: {e}")
@@ -33,13 +29,10 @@ def create_task(name: str, description: str, user_id: int):
 def get_all_tasks():
     session = SessionLocal()
     try:
-        tasks = session.query(Task).all()
-        if not tasks:
-            print("No hay tareas disponibles.")
-            return None
+        tasks = session.query(Task).options(joinedload(Task.user)).all()
         return tasks
     except Exception as e:
-        print(f"Error al consultar tareas: {e}")
+        print(f"Error al obtener tareas: {e}")
         return None
     finally:
         session.close()
@@ -47,7 +40,7 @@ def get_all_tasks():
 def get_task_by_id(task_id: int):
     session = SessionLocal()
     try:
-        task = session.query(Task).filter(Task.id == task_id).first()
+        task = session.query(Task).options(joinedload(Task.user)).filter(Task.id == task_id).first()
         if not task:
             print(f"Tarea con ID {task_id} no existe.")
             return None
@@ -62,7 +55,7 @@ def get_task_by_id(task_id: int):
 def update_task(task_id: int, name: str = None, description: str = None, is_done: bool = None):
     session = SessionLocal()
     try:
-        task = session.query(Task).filter(Task.id == task_id).first()
+        task = session.query(Task).options(joinedload(Task.user)).filter(Task.id == task_id).first()
         if not task:
             print(f"Tarea con ID {task_id} no existe.")
             return None

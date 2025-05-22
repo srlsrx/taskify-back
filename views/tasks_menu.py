@@ -130,7 +130,6 @@ def create_task_menu():
         print(f"\033[1;92m✅ Tarea creada:\033[0m {task}")
     else:
         print("\033[1;91m❌ No se pudo crear la tarea.\033[0m")
-
     input("\n\033[1;90mPulsa ENTER para continuar...\033[0m")
 
 
