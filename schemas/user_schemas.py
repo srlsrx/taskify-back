@@ -10,6 +10,7 @@ class UserCreate(UserBase):
 
 class UserOut(UserBase):
     id: int
+    password: str
 
     class Config:
         orm_mode = True

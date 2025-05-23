@@ -102,6 +102,6 @@ def get_tasks_by_user(user_id: int):
     except Exception as e:
         print(f"Error al consultar usuario: {e}")
         return None
-    tasks = session.query(Task).filter(Task.user_id == user_id).all()
+    tasks = session.query(Task).options(joinedload(Task.user)).filter(Task.user_id == user_id).all()
     session.close()
     return tasks

@@ -129,3 +129,17 @@ def get_user_by_username(username: str):
         return None
     finally:
         session.close()
+
+def get_user_by_email(email: str):
+    session = SessionLocal()
+    try:
+        user = session.query(User).filter(User.email == email).first()
+        if not user:
+            print(f"Usuario con email {email} no existe.")
+            return None
+        return user
+    except Exception as e:
+        print(f"Error al consultar usuario: {e}")
+        return None
+    finally:
+        session.close()
