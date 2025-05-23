@@ -22,6 +22,7 @@ This repository contains the **backend** of a console-based To-Do List applicati
 -   Console UI with `input()` and `print()`
 -   User authentication and role-based access
 -   REST API endpoints
+-   API Doc on http://localhost:8000/docs
 
 ---
 
