@@ -56,6 +56,7 @@ This repository contains the **backend** of a console-based To-Do List applicati
 -   Alembic
 -   pg8000
 -   MVC Architecture
+-   FastAPI
 
 ---
 
@@ -87,11 +88,15 @@ todo_list/
    Run Alembic migrations
 5. Launch the app
    `python3 -m views.start_menu`
+6. Launch Uvicorn (API Server)
+   `uvicorn main:app --reload`
 
 📌 Bonus Features
 Input validation
 Styled and friendly console menu
 Colorful feedback messages
+Simple User Auth
+Rest API
 Anything extra the team decided to implement 😉
 
 📜 License
