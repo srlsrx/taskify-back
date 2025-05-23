@@ -61,6 +61,7 @@ This repository contains the **backend** of a console-based To-Do List applicati
 
 ## 📁 Project Structure
 
+```
 todo_list/
 ├── models/ # SQLAlchemy models
 ├── controllers/ # Business logic
@@ -70,6 +71,7 @@ todo_list/
 ├── requirements.txt # Dependencies
 ├── README.md # Documentation
 └── ENUNCIADO.md # Original assignment
+```
 
 ## ⚙️ Installation
 
