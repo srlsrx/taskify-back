@@ -1,7 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+from dotenv import load_dotenv
+import os
 
-DATABASE_URL = "postgresql+pg8000://postgres:1234@localhost/todo_db"
+load_dotenv()
+
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL no está definida en las variables de entorno.")
 
 engine = create_engine(DATABASE_URL, echo=False)
 SessionLocal = sessionmaker(bind=engine)
